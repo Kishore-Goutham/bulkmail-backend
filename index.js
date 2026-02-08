@@ -2,15 +2,11 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const nodemailer = require("nodemailer");
-const dns = require("dns");
 
 const PORT = process.env.PORT || 5000;
 mongoose.connect("mongodb+srv://kishoregoutham00_db_user:Mongo1234@cluster0.gjk5tsd.mongodb.net/passkey?appName=Cluster0").then(()=> console.log("db started")).catch((err)=>console.log(err))
 
 const credential = mongoose.model('Credential',{},'bulkmail');
-
-
-dns.setDefaultResultOrder("ipv4first");
 
 
 const app = express();
@@ -26,16 +22,12 @@ app.post("/sendemail", async (req,res)=>{
   let creds = await credential.find();
   console.log(creds)
   const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,         
-  secure: false,
+  host: "sandbox.smtp.mailtrap.io",
+   port: 2525,
   auth: {
     user: creds[0].toJSON().user,
     pass: creds[0].toJSON().pass,
   },
-  tls: {
-    family: 4  
-  }
 });
 
   for(const data of emaillist){
