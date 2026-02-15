@@ -22,8 +22,7 @@ app.post("/sendemail", async (req,res)=>{
   let creds = await credential.find();
   console.log(creds)
   const transporter = nodemailer.createTransport({
-  host: "sandbox.smtp.mailtrap.io",
-   port: 2525,
+   service:"gmail",
   auth: {
     user: creds[0].toJSON().user,
     pass: creds[0].toJSON().pass,
